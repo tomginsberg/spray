@@ -2,29 +2,32 @@
 <html class="no-js" lang="">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>sprayme</title>
-  <meta name="description" content="Spray Me">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>sprayme</title>
+    <meta name="description" content="Spray Me">
 
-  <meta property="og:title" content="Spray Me">
-  <meta property="og:type" content="Spray Me">
-  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
-  <meta property="og:image:alt" content="Spray Me">
+    <meta property="og:title" content="Spray Me">
+    <meta property="og:type" content="Spray Me">
+    <meta property="og:image"
+          content="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
+    <meta property="og:image:alt" content="Spray Me">
 
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
-  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
+    <link rel="apple-touch-icon"
+          href="https://upload.wikimedia.org/wikipedia/commons/2/2b/Hot_chili_red_pepper_icon_emote.png">
 
-  <meta name="theme-color" content="#fafafa">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-          crossorigin=""></script>
-  <link href="./output.css" rel="stylesheet">
-  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+    <meta name="theme-color" content="#fafafa">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <link href="./output.css" rel="stylesheet">
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -33,210 +36,253 @@
 <input type="file" id="fileInput" style="display: none;"/>
 
 <div
-  class="fixed bottom-0 left-0 z-[1000] w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-  <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
-    <button type="button"
-            id="load"
-            class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-      <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-           width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path fill-rule="evenodd"
-              d="M13 11.15V4a1 1 0 1 0-2 0v7.15L8.78 8.374a1 1 0 1 0-1.56 1.25l4 5a1 1 0 0 0 1.56 0l4-5a1 1 0 1 0-1.56-1.25L13 11.15Z"
-              clip-rule="evenodd"/>
-        <path fill-rule="evenodd"
-              d="M9.657 15.874 7.358 13H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2.358l-2.3 2.874a3 3 0 0 1-4.685 0ZM17 16a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z"
-              clip-rule="evenodd"/>
-      </svg>
-      <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Load</span>
-    </button>
-    <button type="button"
-            id="save"
-            class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-      <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-           width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="m7.4 3.736 3.43 3.429A5.046 5.046 0 0 1 12.133 7c.356.01.71.06 1.056.147l3.41-3.412a2.32 2.32 0 0 1 .451-.344A9.89 9.89 0 0 0 12.268 2a10.022 10.022 0 0 0-5.322 1.392c.165.095.318.211.454.344Zm11.451 1.54-.127-.127a.5.5 0 0 0-.706 0l-2.932 2.932c.03.023.05.054.078.077.237.194.454.41.651.645.033.038.077.067.11.107l2.926-2.927a.5.5 0 0 0 0-.707Zm-2.931 9.81c-.025.03-.058.052-.082.082a4.97 4.97 0 0 1-.633.639c-.04.036-.072.083-.115.117l2.927 2.927a.5.5 0 0 0 .707 0l.127-.127a.5.5 0 0 0 0-.707l-2.932-2.931Zm-1.443-4.763a3.037 3.037 0 0 0-1.383-1.1l-.012-.007a2.956 2.956 0 0 0-1-.213H12a2.964 2.964 0 0 0-2.122.893c-.285.29-.509.634-.657 1.013l-.009.016a2.96 2.96 0 0 0-.21 1 2.99 2.99 0 0 0 .488 1.716l.032.04a3.04 3.04 0 0 0 1.384 1.1l.012.007c.319.129.657.2 1 .213.393.015.784-.05 1.15-.192.012-.005.021-.013.033-.018a3.01 3.01 0 0 0 1.676-1.7v-.007a2.89 2.89 0 0 0 0-2.207 2.868 2.868 0 0 0-.27-.515c-.007-.012-.02-.025-.03-.039Zm6.137-3.373a2.53 2.53 0 0 1-.349.447l-3.426 3.426c.112.428.166.869.161 1.311a4.954 4.954 0 0 1-.148 1.054l3.413 3.412c.133.134.249.283.347.444A9.88 9.88 0 0 0 22 12.269a9.913 9.913 0 0 0-1.386-5.319ZM16.6 20.264l-3.42-3.421c-.386.1-.782.152-1.18.157h-.135c-.356-.01-.71-.06-1.056-.147L7.4 20.265a2.503 2.503 0 0 1-.444.347A9.884 9.884 0 0 0 11.732 22H12a9.9 9.9 0 0 0 5.044-1.388 2.515 2.515 0 0 1-.444-.348ZM3.735 16.6l3.426-3.426a4.608 4.608 0 0 1-.013-2.367L3.735 7.4a2.508 2.508 0 0 1-.349-.447 9.889 9.889 0 0 0 0 10.1 2.48 2.48 0 0 1 .35-.453Zm5.101-.758a4.959 4.959 0 0 1-.65-.645c-.034-.038-.078-.067-.11-.107L5.15 18.017a.5.5 0 0 0 0 .707l.127.127a.5.5 0 0 0 .706 0l2.932-2.933c-.029-.018-.049-.053-.078-.076Zm-.755-6.928c.03-.037.07-.063.1-.1.183-.22.383-.423.6-.609.046-.04.081-.092.128-.13L5.983 5.149a.5.5 0 0 0-.707 0l-.127.127a.5.5 0 0 0 0 .707l2.932 2.931Z"/>
-      </svg>
+        class="fixed bottom-0 left-0 z-[1000] w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+    <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+        <button type="button"
+                id="load"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                      d="M13 11.15V4a1 1 0 1 0-2 0v7.15L8.78 8.374a1 1 0 1 0-1.56 1.25l4 5a1 1 0 0 0 1.56 0l4-5a1 1 0 1 0-1.56-1.25L13 11.15Z"
+                      clip-rule="evenodd"/>
+                <path fill-rule="evenodd"
+                      d="M9.657 15.874 7.358 13H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2.358l-2.3 2.874a3 3 0 0 1-4.685 0ZM17 16a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z"
+                      clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Load</span>
+        </button>
+        <button type="button"
+                id="save"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                        d="m7.4 3.736 3.43 3.429A5.046 5.046 0 0 1 12.133 7c.356.01.71.06 1.056.147l3.41-3.412a2.32 2.32 0 0 1 .451-.344A9.89 9.89 0 0 0 12.268 2a10.022 10.022 0 0 0-5.322 1.392c.165.095.318.211.454.344Zm11.451 1.54-.127-.127a.5.5 0 0 0-.706 0l-2.932 2.932c.03.023.05.054.078.077.237.194.454.41.651.645.033.038.077.067.11.107l2.926-2.927a.5.5 0 0 0 0-.707Zm-2.931 9.81c-.025.03-.058.052-.082.082a4.97 4.97 0 0 1-.633.639c-.04.036-.072.083-.115.117l2.927 2.927a.5.5 0 0 0 .707 0l.127-.127a.5.5 0 0 0 0-.707l-2.932-2.931Zm-1.443-4.763a3.037 3.037 0 0 0-1.383-1.1l-.012-.007a2.956 2.956 0 0 0-1-.213H12a2.964 2.964 0 0 0-2.122.893c-.285.29-.509.634-.657 1.013l-.009.016a2.96 2.96 0 0 0-.21 1 2.99 2.99 0 0 0 .488 1.716l.032.04a3.04 3.04 0 0 0 1.384 1.1l.012.007c.319.129.657.2 1 .213.393.015.784-.05 1.15-.192.012-.005.021-.013.033-.018a3.01 3.01 0 0 0 1.676-1.7v-.007a2.89 2.89 0 0 0 0-2.207 2.868 2.868 0 0 0-.27-.515c-.007-.012-.02-.025-.03-.039Zm6.137-3.373a2.53 2.53 0 0 1-.349.447l-3.426 3.426c.112.428.166.869.161 1.311a4.954 4.954 0 0 1-.148 1.054l3.413 3.412c.133.134.249.283.347.444A9.88 9.88 0 0 0 22 12.269a9.913 9.913 0 0 0-1.386-5.319ZM16.6 20.264l-3.42-3.421c-.386.1-.782.152-1.18.157h-.135c-.356-.01-.71-.06-1.056-.147L7.4 20.265a2.503 2.503 0 0 1-.444.347A9.884 9.884 0 0 0 11.732 22H12a9.9 9.9 0 0 0 5.044-1.388 2.515 2.515 0 0 1-.444-.348ZM3.735 16.6l3.426-3.426a4.608 4.608 0 0 1-.013-2.367L3.735 7.4a2.508 2.508 0 0 1-.349-.447 9.889 9.889 0 0 0 0 10.1 2.48 2.48 0 0 1 .35-.453Zm5.101-.758a4.959 4.959 0 0 1-.65-.645c-.034-.038-.078-.067-.11-.107L5.15 18.017a.5.5 0 0 0 0 .707l.127.127a.5.5 0 0 0 .706 0l2.932-2.933c-.029-.018-.049-.053-.078-.076Zm-.755-6.928c.03-.037.07-.063.1-.1.183-.22.383-.423.6-.609.046-.04.081-.092.128-.13L5.983 5.149a.5.5 0 0 0-.707 0l-.127.127a.5.5 0 0 0 0 .707l2.932 2.931Z"/>
+            </svg>
 
-      <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Save</span>
-    </button>
-    <button type="button"
-            id="undo"
-            class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-      <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-           width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M14.502 7.046h-2.5v-.928a2.122 2.122 0 0 0-1.199-1.954 1.827 1.827 0 0 0-1.984.311L3.71 8.965a2.2 2.2 0 0 0 0 3.24L8.82 16.7a1.829 1.829 0 0 0 1.985.31 2.121 2.121 0 0 0 1.199-1.959v-.928h1a2.025 2.025 0 0 1 1.999 2.047V19a1 1 0 0 0 1.275.961 6.59 6.59 0 0 0 4.662-7.22 6.593 6.593 0 0 0-6.437-5.695Z"/>
-      </svg>
-      <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Undo</span>
-    </button>
-    <button type="button"
-            id="clear"
-            class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-      <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-           width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path fill-rule="evenodd"
-              d="M17.44 3a1 1 0 0 1 .707.293l2.56 2.56a1 1 0 0 1 0 1.414L18.194 9.78 14.22 5.806l2.513-2.513A1 1 0 0 1 17.44 3Zm-4.634 4.22-9.513 9.513a1 1 0 0 0 0 1.414l2.56 2.56a1 1 0 0 0 1.414 0l9.513-9.513-3.974-3.974ZM6 6a1 1 0 0 1 1 1v1h1a1 1 0 0 1 0 2H7v1a1 1 0 1 1-2 0v-1H4a1 1 0 0 1 0-2h1V7a1 1 0 0 1 1-1Zm9 9a1 1 0 0 1 1 1v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 1 1 0-2h1v-1a1 1 0 0 1 1-1Z"
-              clip-rule="evenodd"/>
-        <path d="M19 13h-2v2h2v-2ZM13 3h-2v2h2V3Zm-2 2H9v2h2V5ZM9 3H7v2h2V3Zm12 8h-2v2h2v-2Zm0 4h-2v2h2v-2Z"/>
-      </svg>
+            <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Save</span>
+        </button>
+        <button type="button"
+                id="undo"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                        d="M14.502 7.046h-2.5v-.928a2.122 2.122 0 0 0-1.199-1.954 1.827 1.827 0 0 0-1.984.311L3.71 8.965a2.2 2.2 0 0 0 0 3.24L8.82 16.7a1.829 1.829 0 0 0 1.985.31 2.121 2.121 0 0 0 1.199-1.959v-.928h1a2.025 2.025 0 0 1 1.999 2.047V19a1 1 0 0 0 1.275.961 6.59 6.59 0 0 0 4.662-7.22 6.593 6.593 0 0 0-6.437-5.695Z"/>
+            </svg>
+            <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Undo</span>
+        </button>
+        <button type="button"
+                id="clear"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                      d="M17.44 3a1 1 0 0 1 .707.293l2.56 2.56a1 1 0 0 1 0 1.414L18.194 9.78 14.22 5.806l2.513-2.513A1 1 0 0 1 17.44 3Zm-4.634 4.22-9.513 9.513a1 1 0 0 0 0 1.414l2.56 2.56a1 1 0 0 0 1.414 0l9.513-9.513-3.974-3.974ZM6 6a1 1 0 0 1 1 1v1h1a1 1 0 0 1 0 2H7v1a1 1 0 1 1-2 0v-1H4a1 1 0 0 1 0-2h1V7a1 1 0 0 1 1-1Zm9 9a1 1 0 0 1 1 1v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 1 1 0-2h1v-1a1 1 0 0 1 1-1Z"
+                      clip-rule="evenodd"/>
+                <path d="M19 13h-2v2h2v-2ZM13 3h-2v2h2V3Zm-2 2H9v2h2V5ZM9 3H7v2h2V3Zm12 8h-2v2h2v-2Zm0 4h-2v2h2v-2Z"/>
+            </svg>
 
-      <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Clear</span>
-    </button>
-  </div>
+            <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Clear</span>
+        </button>
+    </div>
 </div>
 
 <script>
-  var map = L.map('map', {
-    crs: L.CRS.Simple,
-    minZoom: -5,
-    maxZoom: 3,
-    center: [1536, 1732],
-    zoom: -1,
-    zoomSnap: 0.5,
-    zoomDelta: 0.5,
-    wheelPxPerZoomLevel: 120
-  });
-
-  // Array to keep track of selected polygon indices
-  var selectedPolygonIndices = [];
-  // Stack to keep track of selection history for the undo feature
-  var undoStack = [];
-
-  var polygonLayers = [];
-  var bounds = [[0, 0], [3072, 3464]];
-  var image = L.imageOverlay('spray.jpg', bounds).addTo(map);
-
-  map.fitBounds(bounds);
-
-  fetch('polys.json')
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (polygons) {
-      polygons.forEach(function (polygon) {
-        polygonLayers.push(L.polygon(polygon, {color: 'blue'}));
-      });
+    var map = L.map('map', {
+        crs: L.CRS.Simple,
+        minZoom: -5,
+        maxZoom: 3,
+        center: [1536, 1732],
+        zoom: -1,
+        zoomSnap: 0.5,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 120
     });
 
-  map.on('click', function (e) {
-    // ... existing code ...
-    polygonLayers.forEach(function (layer, index) {
-      if (isPointInPolygon(e.latlng, layer)) {
-        if (map.hasLayer(layer)) {
-          map.removeLayer(layer);
-          selectedPolygonIndices = selectedPolygonIndices.filter(function (i) {
-            return i !== index;
-          });
-        } else {
-          map.addLayer(layer);
-          selectedPolygonIndices.push(index);
-          undoStack.push(index); // Add index to the undo stack
+    // Array to keep track of selected polygon indices
+    var selectedPolygonIndices = [];
+    // Stack to keep track of selection history for the undo feature
+    var undoStack = [];
+
+    var polygonLayers = [];
+    var bounds = [[0, 0], [3072, 3464]];
+    var image = L.imageOverlay('spray.jpg', bounds).addTo(map);
+
+    map.fitBounds(bounds);
+
+    function loadPolygonsAndSelectFromURL() {
+        fetch('polys.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (polygons) {
+                // Create Leaflet polygon layers and store them in the global array
+                polygonLayers = polygons.map(function (polygonCoords, index) {
+                    return L.polygon(polygonCoords, {color: 'blue'});
+                });
+
+                // Now that polygons are loaded, select the ones from the URL, if any
+                selectPolygonsFromURL();
+            })
+            .catch(function (error) {
+                console.error('Error loading the polygon data:', error);
+            });
+    }
+
+    function selectPolygonsFromURL() {
+        var queryParams = new URLSearchParams(window.location.search);
+        var selectedIndices = queryParams.get('selected');
+        if (selectedIndices) {
+            selectedPolygonIndices = selectedIndices.split(',').map(Number);
+            // Use these indices to select the corresponding polygons
+            selectedPolygonIndices.forEach(function (index) {
+                if (polygonLayers[index]) {
+                    map.addLayer(polygonLayers[index]);
+                }
+            });
         }
-      }
+    }
+
+
+    function updateUrlWithSelectedPolygons() {
+        var selectedParams = 'selected=' + selectedPolygonIndices.join(',');
+        var newUrl = window.location.pathname + '?' + selectedParams;
+        window.history.pushState({path: newUrl}, '', newUrl);
+    }
+
+
+    map.on('click', function (e) {
+        polygonLayers.forEach(function (layer, index) {
+            if (isPointInPolygon(e.latlng, layer)) {
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                    selectedPolygonIndices = selectedPolygonIndices.filter(function (i) {
+                        return i !== index;
+                    });
+                } else {
+                    map.addLayer(layer);
+                    selectedPolygonIndices.push(index);
+                    undoStack.push(index); // Add index to the undo stack
+                }
+            }
+        });
+        updateUrlWithSelectedPolygons();
     });
-  });
 
-  // Helper function to check if a point is inside a polygon
-  function isPointInPolygon(point, polygonLayer) {
-    var poly = polygonLayer.toGeoJSON();
-    var pt = turf.point([point.lng, point.lat]);
-    return turf.booleanPointInPolygon(pt, poly);
-  }
+    // Helper function to check if a point is inside a polygon
+    function isPointInPolygon(point, polygonLayer) {
+        var poly = polygonLayer.toGeoJSON();
+        var pt = turf.point([point.lng, point.lat]);
+        return turf.booleanPointInPolygon(pt, poly);
+    }
 
 
-  // Bind button click events
-  document.getElementById('load').addEventListener('click', function () {
-    document.getElementById('fileInput').click(); // Simulate click on the file
-    input
-    field
-  });
+    // Bind button click events
+    document.getElementById('load').addEventListener('click', function () {
+        document.getElementById('fileInput').click(); // Simulate click on the file
+        input
+        field
+    });
 
-  // Read the file once the user has selected it
-  document.getElementById('fileInput').addEventListener('change', function (event) {
-    var file = event.target.files[0]; // Get the selected file
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var indices;
-        try {
-          indices = JSON.parse(e.target.result);
-        } catch (err) {
-          alert('Error parsing JSON. Please select a valid JSON file.');
-          return;
-        }
+
+    // Read the file once the user has selected it
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        var file = event.target.files[0]; // Get the selected file
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var indices;
+                try {
+                    indices = JSON.parse(e.target.result);
+                } catch (err) {
+                    alert('Error parsing JSON. Please select a valid JSON file.');
+                    return;
+                }
 // Assuming the rest of the load logic is correct
-        clearAll(); // Clear current selections
-        indices.forEach(function (index) {
-          var layer = polygonLayers[index];
-          if (layer) {
-            map.addLayer(layer);
-            selectedPolygonIndices.push(index);
-          }
-        });
-      };
-      reader.readAsText(file);
-    }
-  });
-  document.getElementById('save').addEventListener('click', savePolygons);
-  document.getElementById('undo').addEventListener('click', undoLastAction);
-  document.getElementById('clear').addEventListener('click', clearAll);
-
-  // Function to handle loading polygons
-  function loadPolygons() {
-    // Assume the file is named 'selectedPolygons.json' and is in the same directory
-    fetch('selectedPolygons.json')
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (indices) {
-        clearAll(); // Clear current selections
-        indices.forEach(function (index) {
-          var layer = polygonLayers[index];
-          if (layer) {
-            map.addLayer(layer);
-            selectedPolygonIndices.push(index);
-          }
-        });
-      });
-  }
-
-  // Function to handle saving polygons
-  function savePolygons() {
-    // Save the selectedPolygonIndices to a JSON file
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(selectedPolygonIndices));
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "myroute.json");
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-  }
-
-  // Function to handle undo
-  function undoLastAction() {
-    if (undoStack.length > 0) {
-      var lastIndex = undoStack.pop();
-      var lastLayer = polygonLayers[lastIndex];
-      map.removeLayer(lastLayer);
-      // Remove from the selected indices
-      selectedPolygonIndices = selectedPolygonIndices.filter(function (index) {
-        return index !== lastIndex;
-      });
-    }
-  }
-
-  // Function to clear all selections
-  function clearAll() {
-    selectedPolygonIndices.forEach(function (index) {
-      var layer = polygonLayers[index];
-      if (map.hasLayer(layer)) {
-        map.removeLayer(layer);
-      }
+                clearAll(); // Clear current selections
+                indices.forEach(function (index) {
+                    var layer = polygonLayers[index];
+                    if (layer) {
+                        map.addLayer(layer);
+                        selectedPolygonIndices.push(index);
+                    }
+                });
+                updateUrlWithSelectedPolygons();
+            };
+            reader.readAsText(file);
+        }
     });
-    selectedPolygonIndices = [];
-    undoStack = [];
-  }
+    document.getElementById('save').addEventListener('click', savePolygons);
+    document.getElementById('undo').addEventListener('click', undoLastAction);
+    document.getElementById('clear').addEventListener('click', clearAll);
+
+    // Function to handle loading polygons
+    function loadPolygons() {
+        // Assume the file is named 'selectedPolygons.json' and is in the same directory
+        fetch('selectedPolygons.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (indices) {
+                clearAll(); // Clear current selections
+                indices.forEach(function (index) {
+                    var layer = polygonLayers[index];
+                    if (layer) {
+                        map.addLayer(layer);
+                        selectedPolygonIndices.push(index);
+                    }
+                });
+            });
+    }
+
+    // Function to handle saving polygons
+    function savePolygons() {
+        // Save the selectedPolygonIndices to a JSON file
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(selectedPolygonIndices));
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "myroute.json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        updateUrlWithSelectedPolygons();
+    }
+
+    // Function to handle undo
+    function undoLastAction() {
+        if (undoStack.length > 0) {
+            var lastIndex = undoStack.pop();
+            var lastLayer = polygonLayers[lastIndex];
+            map.removeLayer(lastLayer);
+            // Remove from the selected indices
+            selectedPolygonIndices = selectedPolygonIndices.filter(function (index) {
+                return index !== lastIndex;
+            });
+            updateUrlWithSelectedPolygons();
+        }
+    }
+
+    // Function to clear all selections
+    function clearAll() {
+        selectedPolygonIndices.forEach(function (index) {
+            var layer = polygonLayers[index];
+            if (map.hasLayer(layer)) {
+                map.removeLayer(layer);
+            }
+        });
+        selectedPolygonIndices = [];
+        undoStack = [];
+        updateUrlWithSelectedPolygons();
+    }
+
+    $(document).ready(function () {
+        // Initialize your map and other settings
+
+        // Then load the polygons and apply selections from the URL
+        loadPolygonsAndSelectFromURL();
+    });
 
 
 </script>
