@@ -7,7 +7,7 @@
 or 
 #### http://titanium.zapto.org:1111
 
-<img src="app.png" width="300">
+<img src="assets/images/app.png" width="300">
 
 Special thanks to these projects:
 * https://aidemos.cs.toronto.edu/toras/try/6625d5d1dc1bb75c0e300f0e
