@@ -28,6 +28,7 @@
     <link href="./output.css" rel="stylesheet">
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -87,7 +88,10 @@
             <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Clear</span>
         </button>
     </div>
+
+
 </div>
+
 
 <script>
     var map = L.map('map', {
@@ -218,24 +222,6 @@
     document.getElementById('undo').addEventListener('click', undoLastAction);
     document.getElementById('clear').addEventListener('click', clearAll);
 
-    // Function to handle loading polygons
-    function loadPolygons() {
-        // Assume the file is named 'selectedPolygons.json' and is in the same directory
-        fetch('selectedPolygons.json')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (indices) {
-                clearAll(); // Clear current selections
-                indices.forEach(function (index) {
-                    var layer = polygonLayers[index];
-                    if (layer) {
-                        map.addLayer(layer);
-                        selectedPolygonIndices.push(index);
-                    }
-                });
-            });
-    }
 
     // Function to handle saving polygons
     function savePolygons() {
