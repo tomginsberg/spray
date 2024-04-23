@@ -28,7 +28,7 @@ function loadPolygonsAndSelectFromURL() {
         .then(function (polygons) {
             // Create Leaflet polygon layers and store them in the global array
             polygonLayers = polygons.map(function (polygonCoords, index) {
-                return L.polygon(polygonCoords, {color: 'blue'});
+                return L.polygon(polygonCoords, { color: 'blue' });
             });
 
             // Now that polygons are loaded, select the ones from the URL, if any
@@ -39,45 +39,88 @@ function loadPolygonsAndSelectFromURL() {
         });
 }
 
+const tagToColor = {
+    's': '#84cc16',  // start
+    'e': '#b91c1c',    // finish
+    'f': '#fda4af',  // foot
+    '': 'blue'    // any
+};
+
+
+
+
 function selectPolygonsFromURL() {
     var queryParams = new URLSearchParams(window.location.search);
     var selectedIndices = queryParams.get('selected');
     if (selectedIndices) {
-        selectedPolygonIndices = selectedIndices.split(',').map(Number);
-        // Use these indices to select the corresponding polygons
-        selectedPolygonIndices.forEach(function (index) {
-            if (polygonLayers[index]) {
-                map.addLayer(polygonLayers[index]);
+        selectedIndices.split(',').forEach(function(taggedIndex) {
+            // Separate the index from the tag
+            var parts = taggedIndex.split('_');
+            var index = parseInt(parts[0], 10);
+            var tag = parts[1];
+
+            var layer = polygonLayers[index];
+            if (layer) {
+                map.addLayer(layer);
+                var color = tagToColor[tag] || 'blue'; // Default to blue if no tag is present
+                layer.setStyle({ color: color });
+                selectedPolygonIndices.push(taggedIndex); // Update the global selected indices array
             }
         });
     }
 }
 
 
+
 function updateUrlWithSelectedPolygons() {
-    var selectedParams = 'selected=' + selectedPolygonIndices.join(',');
-    var newUrl = window.location.pathname + '?' + selectedParams;
-    window.history.pushState({path: newUrl}, '', newUrl);
+    var selectedParams = selectedPolygonIndices.length > 0 ? 'selected=' + selectedPolygonIndices.join(',') : '';
+    var newUrl = window.location.pathname + (selectedParams ? '?' + selectedParams : '');
+    window.history.pushState({ path: newUrl }, '', newUrl);
 }
 
 
+
 map.on('click', function (e) {
-    polygonLayers.forEach(function (layer, index) {
-        if (isPointInPolygon(e.latlng, layer)) {
-            if (map.hasLayer(layer)) {
-                map.removeLayer(layer);
-                selectedPolygonIndices = selectedPolygonIndices.filter(function (i) {
-                    return i !== index;
-                });
-            } else {
-                map.addLayer(layer);
-                selectedPolygonIndices.push(index);
-                undoStack.push(index); // Add index to the undo stack
+    var clickedPoint = e.latlng;
+    var minArea = Infinity;
+    var minAreaLayer = null;
+    var clickedLayers = [];
+
+    // Identify all polygons that contain the clicked point and find the one with the smallest area
+    polygonLayers.forEach(function (layer) {
+        if (isPointInPolygon(clickedPoint, layer)) {
+            clickedLayers.push(layer); // Track polygons that the point is inside
+            var polyArea = turf.area(layer.toGeoJSON());
+            if (polyArea < minArea) {
+                minArea = polyArea;
+                minAreaLayer = layer;
             }
         }
     });
-    updateUrlWithSelectedPolygons();
+
+    if (!map.hasLayer(minAreaLayer)) {
+        map.addLayer(minAreaLayer);
+        selectedPolygonIndices.push(polygonLayers.indexOf(minAreaLayer)); // Update selected indices
+    } else if (map.hasLayer(minAreaLayer) && clickedLayers.includes(minAreaLayer)) {
+        map.removeLayer(minAreaLayer);
+        // Update the list of selected indices
+        selectedPolygonIndices = selectedPolygonIndices.filter(taggedIndex => {
+            return getNumericIndex(taggedIndex) !== polygonLayers.indexOf(minAreaLayer);
+        });
+    }
+
+    updateUrlWithSelectedPolygons(); // Update the URL if necessary
 });
+
+function getNumericIndex(taggedIndex) {
+    // Check if the index is already a number
+    if (typeof taggedIndex === 'number') {
+        return taggedIndex;  // Return as is if it's a number
+    }
+    // Otherwise, assume it's a string and parse the numeric part
+    return parseInt(taggedIndex.split('_')[0], 10);
+}
+
 
 // Helper function to check if a point is inside a polygon
 function isPointInPolygon(point, polygonLayer) {
@@ -85,7 +128,6 @@ function isPointInPolygon(point, polygonLayer) {
     var pt = turf.point([point.lng, point.lat]);
     return turf.booleanPointInPolygon(pt, poly);
 }
-
 
 // Bind button click events
 document.getElementById('load').addEventListener('click', function () {
@@ -173,3 +215,60 @@ $(document).ready(function () {
     // Then load the polygons and apply selections from the URL
     loadPolygonsAndSelectFromURL();
 });
+
+document.getElementById('start').addEventListener('click', function () {
+    changePolygonColor('_s');
+});
+
+document.getElementById('finish').addEventListener('click', function () {
+    changePolygonColor('_e');
+});
+
+document.getElementById('foot').addEventListener('click', function () {
+    changePolygonColor('_f');
+});
+
+document.getElementById('any').addEventListener('click', function () {
+    changePolygonColor('');
+});
+
+const colorToTag = {
+    's': '_s',  // start
+    'red': '_e',    // finish
+    'pink': '_f',  // foot
+    'blue': ''    // any
+};
+
+
+
+function changePolygonColor(tag) {
+    var color = tagToColor[tag.split('_')[1]] || 'blue';
+    console.log("Changing color to: " + color);
+    console.log(selectedPolygonIndices);
+    // get indicies from url
+
+    if (selectedPolygonIndices.length > 0) {
+        var lastIndex = selectedPolygonIndices[selectedPolygonIndices.length - 1];
+        // check if lastIndex is a string then split it
+        if (typeof lastIndex === 'string') {
+            lastIndex = lastIndex.split('_')[0];
+        }
+        console.log(lastIndex);
+        var lastPolygon = polygonLayers[lastIndex];
+        if (lastPolygon) {
+            lastPolygon.setStyle({color: color});
+
+            // Append the tag to the index in the array
+            var taggedIndex = lastIndex + tag;
+
+            // Update the last element in the array to include the tag
+            selectedPolygonIndices[selectedPolygonIndices.length - 1] = taggedIndex;
+
+            // Update the URL to reflect this change
+            updateUrlWithSelectedPolygons();
+        }
+    } else {
+        alert("No polygon selected to color.");
+    }
+}
+
