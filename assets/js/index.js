@@ -28,7 +28,7 @@ function loadPolygonsAndSelectFromURL() {
         .then(function (polygons) {
             // Create Leaflet polygon layers and store them in the global array
             polygonLayers = polygons.map(function (polygonCoords, index) {
-                return L.polygon(polygonCoords, { color: 'blue' });
+                return L.polygon(polygonCoords, {color: 'blue'});
             });
 
             // Now that polygons are loaded, select the ones from the URL, if any
@@ -47,13 +47,11 @@ const tagToColor = {
 };
 
 
-
-
 function selectPolygonsFromURL() {
     var queryParams = new URLSearchParams(window.location.search);
     var selectedIndices = queryParams.get('selected');
     if (selectedIndices) {
-        selectedIndices.split(',').forEach(function(taggedIndex) {
+        selectedIndices.split(',').forEach(function (taggedIndex) {
             // Separate the index from the tag
             var parts = taggedIndex.split('_');
             var index = parseInt(parts[0], 10);
@@ -63,7 +61,7 @@ function selectPolygonsFromURL() {
             if (layer) {
                 map.addLayer(layer);
                 var color = tagToColor[tag] || 'blue'; // Default to blue if no tag is present
-                layer.setStyle({ color: color });
+                layer.setStyle({color: color});
                 selectedPolygonIndices.push(taggedIndex); // Update the global selected indices array
             }
         });
@@ -71,13 +69,11 @@ function selectPolygonsFromURL() {
 }
 
 
-
 function updateUrlWithSelectedPolygons() {
     var selectedParams = selectedPolygonIndices.length > 0 ? 'selected=' + selectedPolygonIndices.join(',') : '';
     var newUrl = window.location.pathname + (selectedParams ? '?' + selectedParams : '');
-    window.history.pushState({ path: newUrl }, '', newUrl);
+    window.history.pushState({path: newUrl}, '', newUrl);
 }
-
 
 
 map.on('click', function (e) {
@@ -153,19 +149,20 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 // Assuming the rest of the load logic is correct
             clearAll(); // Clear current selections
             indices.forEach(function (index) {
-                var layer = polygonLayers[index];
+                var layer = polygonLayers[getNumericIndex(index)];
                 if (layer) {
                     map.addLayer(layer);
                     selectedPolygonIndices.push(index);
                 }
             });
             updateUrlWithSelectedPolygons();
+            loadPolygonsAndSelectFromURL();
         };
         reader.readAsText(file);
     }
 });
 document.getElementById('save').addEventListener('click', savePolygons);
-document.getElementById('undo').addEventListener('click', undoLastAction);
+// document.getElementById('undo').addEventListener('click', undoLastAction);
 document.getElementById('clear').addEventListener('click', clearAll);
 
 
@@ -198,15 +195,17 @@ function undoLastAction() {
 
 // Function to clear all selections
 function clearAll() {
-    selectedPolygonIndices.forEach(function (index) {
-        var layer = polygonLayers[index];
-        if (map.hasLayer(layer)) {
-            map.removeLayer(layer);
-        }
-    });
     selectedPolygonIndices = [];
     undoStack = [];
+    polygonLayers = [];
+    // clear the map
+    map.eachLayer(function (layer) {
+        if (layer instanceof L.Polygon) {
+            map.removeLayer(layer);
+        }
+    })
     updateUrlWithSelectedPolygons();
+    loadPolygonsAndSelectFromURL();
 }
 
 $(document).ready(function () {
@@ -231,14 +230,6 @@ document.getElementById('foot').addEventListener('click', function () {
 document.getElementById('any').addEventListener('click', function () {
     changePolygonColor('');
 });
-
-const colorToTag = {
-    's': '_s',  // start
-    'red': '_e',    // finish
-    'pink': '_f',  // foot
-    'blue': ''    // any
-};
-
 
 
 function changePolygonColor(tag) {
